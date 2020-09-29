@@ -72,5 +72,10 @@ public class Contact {
 		this.phoneNumber = phoneNumber;
 		this.email = email;
 	}
+	
+	@Override
+	public String toString() {
+		return this.getFirstName() + " " + this.getLastName() + " " + this.getAddress() + " " + this.getPhoneNumber();
+	}
 
 }

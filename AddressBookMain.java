@@ -1,4 +1,5 @@
 package addressBook;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 
@@ -6,17 +7,15 @@ public class AddressBookMain {
 	
 	public static void main(String[] args) {
 		
-		System.out.println("Welcome to Address Book");
-		
-		AddressBook addressBook = new AddressBook();
+    	AddressBook addressBook = new AddressBook();
 	    System.out.println("Welcome to Address Book");
-	    
 	    Scanner sc = new Scanner(System.in);
+	    
 	    do {
 	    	sc.nextLine();
-	    	
 	    	System.out.println("1.Add a new Contact");
 	    	System.out.println("2.Edit the contact details");
+	    	System.out.println("3.Delete a Contact");
 	    	int choice = sc.nextInt();
 	    	sc.nextLine();
 	    	
@@ -48,18 +47,26 @@ public class AddressBookMain {
 	    		
 	    	case 2:
 	    		System.out.println("Enter the contact name");
-	    		String name=sc.nextLine();
-	    		addressBook.editContact(name);
+	    		String name = sc.nextLine();
+	    		addressBook.editContact(name);//edited Contact
+	    		break;
+	    		
+	    	case 3:
+	    		System.out.println("Enter the contact name");
+	    		String  contactName = sc.nextLine();
+	    		addressBook.deleteContact(contactName);//deleted Contact
 	    		break;
 	    		
 	    	default:
 	    		break;
 	    	} 
-	    	
 	    	System.out.println("Do you wish to continue(Y/N)?");
-	    	
-	    }while(sc.next().charAt(0)=='Y');
-	    
+	    }
+            while(sc.next().charAt(0)=='Y');
 	    System.out.println("Thank You");
+	    ArrayList<Contact> contactList = addressBook.getAddressBook();
+	    for(Contact contact : contactList) {
+	    	System.out.println(contact);//Display of Contact List in AddressBook
+	    }
 	}
 }
