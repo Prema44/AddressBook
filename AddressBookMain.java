@@ -63,7 +63,7 @@ public class AddressBookMain {
 					}
 					else
 					{
-						addressBook[0].editContact(name);
+						addressBook[1].editContact(name);
 					}
 					break;
 				case 3:
