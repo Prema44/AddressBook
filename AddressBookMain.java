@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
 
 public class AddressBookMain{
 	
@@ -56,7 +55,7 @@ public class AddressBookMain{
 					System.out.println("Enter the state name");
 					String state = scanner.next();
 					System.out.println("Enter the ZIP code");
-					int zip = scanner.nextInt();
+					String zip = scanner.next();
 					System.out.println("Enter the phone number");
 					long phoneNumber = scanner.nextLong();
 					scanner.nextLine();
