@@ -1,7 +1,20 @@
 package addressBook;
 
 public class Contact {
-	
+
+	public Contact(String firstName, String lastName, String address, String city, String state, int zip,
+			long phoneNumber, String email) {
+		super();
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.address = address;
+		this.city = city;
+		this.state = state;
+		this.zip = zip;
+		this.phoneNumber = phoneNumber;
+		this.email = email;
+	}
+
 	private String firstName;
 	private String lastName;
 	private String address;
@@ -10,7 +23,7 @@ public class Contact {
 	private int zip;
 	private long phoneNumber;
 	private String email;
-	
+
 	public String getFirstName() {
 		return firstName;
 	}
@@ -59,23 +72,10 @@ public class Contact {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
-	public Contact(String firstName, String lastName, String address, String city, String state, int zip,
-			long phoneNumber, String email) {
-		super();
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.address = address;
-		this.city = city;
-		this.state = state;
-		this.zip = zip;
-		this.phoneNumber = phoneNumber;
-		this.email = email;
-	}
-	
 	@Override
 	public String toString() {
 		return this.getFirstName() + " " + this.getLastName() + " " + this.getAddress() + " " + this.getPhoneNumber();
 	}
 
 }
+
