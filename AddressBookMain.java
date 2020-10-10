@@ -1,11 +1,10 @@
 package addressBook;
 
-import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
 import java.util.stream.Collectors;
 
 public class AddressBookMain{
@@ -15,93 +14,79 @@ public class AddressBookMain{
 	public AddressBookMain() {
 		addressBookMap = new HashMap<>();
 	}
-	
 	public void addAddressBook(String city) {
 		AddressBook addBook = new AddressBook(city);
 		addressBookMap.put(city,addBook);
 	}
-	
 	public void searchPersonByCity(String name, String city) {
 		List<Contact> list = new ArrayList<Contact>();
-		List<Contact> finalList = new ArrayList<Contact>();
 		for(Map.Entry<String,AddressBook> entry : addressBookMap.entrySet()) {
 			list = entry.getValue().getBook().stream().filter(c-> c.getCity().equals(city))
 					.filter(c->(c.getFirstName()+" "+c.getLastName())
 					.equals(name)).collect(Collectors.toList());
-			finalList.addAll(list);
 		}
-		for(Contact c : finalList) {
+		for(Contact c : list) {
 			System.out.println(c);
 		}
 	}	
-	
 	public void searchPersonByState(String name, String state) {
 		List<Contact> list = new ArrayList<Contact>();
-		List<Contact> finalList = new ArrayList<Contact>();
 		for(Map.Entry<String,AddressBook> entry : addressBookMap.entrySet()) {
 			list = entry.getValue().getBook().stream().filter(c-> c.getState().equals(state))
 					.filter(c->(c.getFirstName()+" "+c.getLastName())
 					.equals(name)).collect(Collectors.toList());
-			finalList.addAll(list);
 		}
-		for(Contact c : finalList) {
+		for(Contact c : list) {
 			System.out.println(c);
 		}
 	}
-	
 	public void viewDataByCity(String city) {
 		List<Contact> list = new ArrayList<Contact>();
-		List<Contact> finalList = new ArrayList<Contact>();
 		for(Map.Entry<String,AddressBook> entry : addressBookMap.entrySet()) {
-			list = entry.getValue().getBook().stream().filter(c-> c.getCity().equals(city))
+			list = entry.getValue().getBook().stream().filter(c-> c.getState().equals(city))
 					.collect(Collectors.toList());
-			finalList.addAll(list);
 		}
-		for(Contact c : finalList) {
+		for(Contact c : list) {
 			System.out.println(c);
 		}
 	}
-	
 	public void viewDataByState(String state) {
-		List<Contact> finalList = new ArrayList<Contact>();
 		List<Contact> list = new ArrayList<Contact>();
 		for(Map.Entry<String,AddressBook> entry : addressBookMap.entrySet()) {
 			list = entry.getValue().getBook().stream().filter(c-> c.getState().equals(state))
 					.collect(Collectors.toList());
-			finalList.addAll(list);
 		}
-		for(Contact c : finalList) {
+		for(Contact c : list) {
 			System.out.println(c);
 		}
 	}
-	
 	public void countByCity(String city) {
-		long finalCount = 0;
+		long count = 0;
 		for(Map.Entry<String,AddressBook> entry : addressBookMap.entrySet()) {
-			long count = entry.getValue().getBook().stream().filter(c-> c.getCity().equals(city))
+			count = entry.getValue().getBook().stream().filter(c-> c.getCity().equals(city))
 					.count();
-			finalCount+=count;
 		}
-		System.out.println("count is "+finalCount);
+		System.out.println("count is "+count);
 	}
-	
 	public void countByState(String state) {
-		long finalCount = 0;
+		long count = 0;
 		for(Map.Entry<String,AddressBook> entry : addressBookMap.entrySet()) {
-			long count = entry.getValue().getBook().stream().filter(c-> c.getState().equals(state))
+			count = entry.getValue().getBook().stream().filter(c-> c.getState().equals(state))
 					.count();
-			finalCount+=count;
 		}
-		System.out.println("count is "+finalCount);
+		System.out.println("count is "+count);
 	}
-	
 	public void sortByName() {
 		for(Map.Entry<String,AddressBook> entry : addressBookMap.entrySet()) {
 			Collections.sort(entry.getValue().getBook(),new SortByName());
 		}
 
 	}
-	
+	public void sortByZip() {
+		for(Map.Entry<String,AddressBook> entry : addressBookMap.entrySet()) {
+			Collections.sort(entry.getValue().getBook(),new SortByZip());
+		}
+	}
 	public static void main(String[] args) {
 		Scanner scanner = new Scanner(System.in);
 		AddressBookMain addBookMain = new AddressBookMain();
@@ -119,7 +104,8 @@ public class AddressBookMain{
 			System.out.println("10.to count contact from city");
 			System.out.println("11.to count contact from state");
 			System.out.println("12.to sort the addressbook by name");
-			System.out.println("13.exit");
+			System.out.println("13.to sort the addressbook by zip");
+			System.out.println("14.exit");
 			v = scanner.nextInt();
 			scanner.nextLine();
 			switch(v) {
@@ -141,7 +127,7 @@ public class AddressBookMain{
 					System.out.println("Enter the state name");
 					String state = scanner.next();
 					System.out.println("Enter the ZIP code");
-					String zip = scanner.next();
+					long zip = scanner.nextLong();
 					System.out.println("Enter the phone number");
 					long phoneNumber = scanner.nextLong();
 					scanner.nextLine();
@@ -204,7 +190,7 @@ public class AddressBookMain{
 					String per = scanner.nextLine();
 					System.out.println("Enter the state");
 					String stat = scanner.nextLine();
-					addBookMain.searchPersonByState(per,stat);
+					addBookMain.searchPersonByCity(per,stat);
 					break;
 				case 8:
 					System.out.println("Enter the city");
@@ -222,7 +208,7 @@ public class AddressBookMain{
 					addBookMain.countByCity(citi1);
 					break;
 				case 11:
-					System.out.println("Enter the State");
+					System.out.println("Enter the city");
 					String stat1 = scanner.nextLine();
 					addBookMain.countByState(stat1);
 					break;
@@ -230,7 +216,11 @@ public class AddressBookMain{
 					addBookMain.sortByName();
 					break;
 				case 13:
+					addBookMain.sortByZip();
+					break;
+				case 14:
 					System.exit(0);
+					break;
 			}
 		}
 	}
