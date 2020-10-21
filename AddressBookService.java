@@ -1,6 +1,8 @@
 package addressBook;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
@@ -9,12 +11,16 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Map;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonStreamParser;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 
 public class AddressBookService {
 	public static String FILE_NAME = "AddressBook.txt";
 	public static String CSV_FILE = "AddressBook.csv";
+	public static String JSON_FILE = "AddressBook.json";
 
 	public void writeData(Map<String, AddressBook> cityBookMap) {
 		StringBuffer employeeBuffer = new StringBuffer();
@@ -79,5 +85,50 @@ public class AddressBookService {
 			e.printStackTrace();
 		}
 	}
+	
+	/**
+	 * Usecase15 using GSON writing data to JSON file
+	 * 
+	 * @param cityBookMap
+	 * @throws IOException
+	 */
+	public void writeDataToJSON(Map<String, AddressBook> cityBookMap) throws IOException {
+		Gson gson = new Gson();
+		Path path = Paths.get(JSON_FILE);
+		FileWriter writer = new FileWriter(path.toFile());
+		for (Map.Entry<String, AddressBook> entry : cityBookMap.entrySet()) {
+			entry.getValue().getContactList().forEach(contact -> {
+				String json = gson.toJson(contact);
+				try {
+					writer.write(json);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			});
+		}
+		writer.close();
+	}
 
+	/**
+	 * Usecase15 using GSON reading from a JSON file
+	 */
+	public void readDataFromJSON() {
+		Gson gson = new Gson();
+		try {
+			BufferedReader bufferedReader = new BufferedReader(new FileReader(Paths.get(JSON_FILE).toFile()));
+			JsonStreamParser parser = new JsonStreamParser(bufferedReader);
+			while (parser.hasNext()) {
+				JsonElement jsonElement = parser.next();
+				if (jsonElement.isJsonObject()) {
+					Contact contact = gson.fromJson(jsonElement, Contact.class);
+					System.out.println(contact);
+				}
+			}
+		} catch (Exception exception) {
+			exception.printStackTrace();
+		}
+	}
 }
+
+
+
